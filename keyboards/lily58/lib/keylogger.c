@@ -3,7 +3,7 @@
 #include "lily58.h"
 
 char keylog_str[24] = {};
-char keylogs_str[21] = {};
+char keylogs_str[21] = {0};
 int keylogs_str_idx = 0;
 
 const char code_to_name[60] = {
@@ -14,6 +14,12 @@ const char code_to_name[60] = {
     'R', 'E', 'B', 'T', ' ', ' ', ' ', ' ', ' ', ' ',
     ' ', ';', '\'', ' ', ',', '.', '/', ' ', ' ', ' '};
 
+void init_keylog(void) {
+  for(int i = 0; i < sizeof(keylogs_str) - 1; i++){
+    keylogs_str[i] = ' ';
+  }
+}
+
 void set_keylog(uint16_t keycode, keyrecord_t *record) {
   char name = ' ';
   if (keycode < 60) {
@@ -21,16 +27,17 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
   }
 
   // update keylog
-  snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
+  snprintf(keylog_str, sizeof(keylog_str), 
+          "%dx%d, k%2d : %c",
            record->event.key.row, record->event.key.col,
            keycode, name);
 
   // update keylogs
   if (keylogs_str_idx == sizeof(keylogs_str) - 1) {
     keylogs_str_idx = 0;
-    for (int i = 0; i < sizeof(keylogs_str) - 1; i++) {
-      keylogs_str[i] = ' ';
-    }
+    //for (int i = 0; i < sizeof(keylogs_str) - 1; i++) {
+    //  keylogs_str[i] = ' ';
+    //}
   }
 
   keylogs_str[keylogs_str_idx] = name;
