@@ -186,6 +186,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void keyboard_post_init_user(void) {
 #ifdef OLED_DRIVER_ENABLE
-    init_keylog();
+if(is_keyboard_master()) init_keylog();
 #endif
 }
