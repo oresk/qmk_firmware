@@ -144,29 +144,28 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 // functions from lib/keylogger.c
+void init_keylog(void);
 void set_keylog(uint16_t keycode, keyrecord_t *record);
 const char *read_keylog(void);
 const char *read_keylogs(void);
 
-#include <stdio.h>
 const char *print_layer_state(void) {
-  static char layer_state_str[6];
   int layer = get_highest_layer(layer_state);
   if (layer < _MAX_LAYER) {
-    snprintf(layer_state_str, sizeof(layer_state_str), layer_names[layer]);
+    return layer_names[layer];
   } else {
-    snprintf(layer_state_str, sizeof(layer_state_str), "UNDEF");
+    return "UNDEF";
   }
-
-  return layer_state_str;
 }
 
 void oled_task_user(void) {
   if (is_keyboard_master()) {
     // If you want to change the display of OLED, you need to change here
-    oled_write_ln(print_layer_state(), false);
+    oled_write(print_layer_state(), false);
+    oled_write("-----", false);
     //oled_write_ln(read_keylog(), false);
-    oled_write_ln(read_keylogs(), false);
+    oled_write(read_keylogs(), false);
+    oled_write("-----", false);
   }
 }
 #endif // OLED_DRIVER_ENABLE
@@ -183,4 +182,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   return true;
+}
+
+void keyboard_post_init_user(void) {
+#ifdef OLED_DRIVER_ENABLE
+    init_keylog();
+#endif
 }
