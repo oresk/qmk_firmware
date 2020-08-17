@@ -246,7 +246,7 @@ void keyboard_init(void) {
 #       endif
     } else {
 #       ifndef OLED_NO_DISPLAY_ON_SLAVE
-        led_init(OLED_ROTATION_0);
+        oled_init(OLED_ROTATION_0);
 #       endif
     } 
 #endif

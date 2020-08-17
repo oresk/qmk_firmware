@@ -137,8 +137,6 @@ void matrix_init_user(void) {
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (is_keyboard_master()){
     return OLED_ROTATION_270;  // flips the display 180 degrees if offhand
-  } else {
-    return OLED_ROTATION_0;
   }
   return rotation;
 }
@@ -158,6 +156,13 @@ const char *print_layer_state(void) {
   }
 }
 
+#include <stdio.h>
+const char *print_wpm(void) {
+  static char wpm[11] = {0};
+  snprintf(wpm, sizeof(wpm), " WPM: %d", get_current_wpm());
+  return wpm;
+}
+
 void oled_task_user(void) {
   if (is_keyboard_master()) {
     // If you want to change the display of OLED, you need to change here
@@ -166,6 +171,7 @@ void oled_task_user(void) {
     //oled_write_ln(read_keylog(), false);
     oled_write(read_keylogs(), false);
     oled_write("-----", false);
+    oled_write(print_wpm(),false);
   }
 }
 #endif // OLED_DRIVER_ENABLE
@@ -180,12 +186,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     set_keylog(keycode, record);
 #endif
   }
-
   return true;
 }
 
 void keyboard_post_init_user(void) {
-#ifdef OLED_DRIVER_ENABLE
-if(is_keyboard_master()) init_keylog();
-#endif
+#   ifdef OLED_DRIVER_ENABLE
+    if(is_keyboard_master()) {
+        init_keylog();
+    }
+#   endif
 }
