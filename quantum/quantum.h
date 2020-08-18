@@ -84,6 +84,10 @@ extern layer_state_t layer_state;
 #    include "process_steno.h"
 #endif
 
+#ifdef BRAILLE_ENABLE
+#    include "process_braille.h"
+#endif
+
 #if defined(AUDIO_ENABLE) || (defined(MIDI_ENABLE) && defined(MIDI_BASIC))
 #    include "process_music.h"
 #endif

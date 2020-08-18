@@ -241,6 +241,9 @@ bool process_record_quantum(keyrecord_t *record) {
 #ifdef STENO_ENABLE
             process_steno(keycode, record) &&
 #endif
+#ifdef BRAILLE_ENABLE
+            process_braille(keycode, record) &&
+#endif
 #if (defined(AUDIO_ENABLE) || (defined(MIDI_ENABLE) && defined(MIDI_BASIC))) && !defined(NO_MUSIC_MODE)
             process_music(keycode, record) &&
 #endif

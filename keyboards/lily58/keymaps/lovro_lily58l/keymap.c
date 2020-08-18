@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "keymap_braille.h"
+#include <print.h>
 
 extern uint8_t is_master;
 
@@ -89,9 +90,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                   `----------------------------'           '------''--------------------'
  */
 [_RAISE] = LAYOUT(
-  _______, _______, _______, _______, _______, _______,                     _______, _______, _______, _______, _______, _______,
+  KC_Q,    _______, _______, _______, _______, _______,                     _______, _______, _______, _______, _______, _______,
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-  KC_F1,  KC_F2,    KC_F3,   KC_F4,   KC_F5,   KC_F6,                       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
+  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,   _______, _______,  KC_PLUS, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
                              _______, _______, _______,  _______, _______,  _______, _______, _______
 ),
@@ -130,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                   |      |      |      |/       /         \      \ |      |      |      |
  *                   `----------------------------'           '------''--------------------'
  */
-  [_ADJUST] = LAYOUT(
+  [_BRAILLE] = LAYOUT(
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(_BRAILLE),
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   XXXXXXX, XXXXXXX, BRL_D1,  BRL_D2,  BRL_D3,  XXXXXXX,                     XXXXXXX, BRL_D4,  BRL_D5,  BRL_D6,  XXXXXXX, XXXXXXX,
@@ -178,10 +179,16 @@ void oled_task_user(void) {
     oled_write("-----", false);
     //oled_write_ln(read_keylog(), false);
     oled_write(read_keylogs(), false);
+#ifdef BRAILLE_ENABLE
     oled_write("-----", false);
+#endif
     oled_write(print_wpm(),false);
   }
 }
+bool process_braille_user(uint16_t keycode, keyrecord_t *record);
+bool process_braille_user(uint16_t keycode, keyrecord_t *record) { 
+  return true; 
+  }
 #endif // OLED_DRIVER_ENABLE
 
 layer_state_t layer_state_set_user(layer_state_t state) {
