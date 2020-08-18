@@ -80,7 +80,8 @@ enum quantum_keycodes {
     QK_SWAP_HANDS_MAX = 0x5BFF,
 #endif
 #ifdef BRAILLE_ENABLE
-    QK_BRAILLE = 0x5C00,
+    QK_BRAILLE     = 0x5C00,
+    QK_BRAILLE_MAX = 0x5C3F,
 #endif
     QK_MOD_TAP     = 0x6000,
     QK_MOD_TAP_MAX = 0x7FFF,

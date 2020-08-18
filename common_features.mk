@@ -55,6 +55,11 @@ ifeq ($(strip $(STENO_ENABLE)), yes)
     SRC += $(QUANTUM_DIR)/process_keycode/process_steno.c
 endif
 
+ifeq ($(strip $(BRAILLE_ENABLE)), yes)
+    OPT_DEFS += -DBRAILLE_ENABLE
+    SRC += $(QUANTUM_DIR)/process_keycode/process_braille.c
+endif
+
 ifeq ($(strip $(VIRTSER_ENABLE)), yes)
     OPT_DEFS += -DVIRTSER_ENABLE
 endif
