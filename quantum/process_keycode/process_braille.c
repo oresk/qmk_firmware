@@ -86,16 +86,20 @@ void update_state_braille(uint16_t dot, bool is_pressed){
  * return zero to suppress normal sending behavior.
  */
 
+__attribute__((weak)) bool process_braille_kb(uint16_t keycode, keyrecord_t *record) { return true; }
 __attribute__((weak)) bool process_braille_user(uint16_t keycode, keyrecord_t *record) { return true; }
 
 bool process_braille(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case BRL__MIN ... BRL__MAX:
+            if (!process_braille_kb(keycode, record)) {
+                return false;
+            }
             if (!process_braille_user(keycode, record)) {
                 return false;
             }
             if (IS_PRESSED(record->event)) {
-                update_state_braille(keycode - BRL__MIN, IS_PRESSED(record->event));
+                update_state_braille(keycode - BRL__MIN + 1, IS_PRESSED(record->event));
                 pressed++;
             } else {
                 pressed--;
