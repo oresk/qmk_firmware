@@ -27,7 +27,7 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
   }
 
   // update keylog
-  snprintf(keylog_str, sizeof(keylog_str), 
+  snprintf(keylog_str, sizeof(keylog_str),
           "%dx%d, k%2d : %c",
            record->event.key.row, record->event.key.col,
            keycode, name);
@@ -35,9 +35,7 @@ void set_keylog(uint16_t keycode, keyrecord_t *record) {
   // update keylogs
   if (keylogs_str_idx == sizeof(keylogs_str) - 1) {
     keylogs_str_idx = 0;
-    //for (int i = 0; i < sizeof(keylogs_str) - 1; i++) {
-    //  keylogs_str[i] = ' ';
-    //}
+    //init_keylog();
   }
 
   keylogs_str[keylogs_str_idx] = name;
