@@ -142,7 +142,7 @@ const char *print_layer_state(void) {
 #include <stdio.h>
 const char *print_wpm(void) {
   static char wpm[11] = {0};
-  snprintf(wpm, sizeof(wpm), " WPM: %d", get_current_wpm());
+  snprintf(wpm, sizeof(wpm), " WPM: %3d", get_current_wpm());
   return wpm;
 }
 
@@ -151,10 +151,12 @@ void oled_task_user(void) {
     // If you want to change the display of OLED, you need to change here
     oled_write(print_layer_state(), false);
     oled_write("-----", false);
-    //oled_write_ln(read_keylog(), false);
-    oled_write(read_keylogs(), false);
+    oled_write_ln(print_wpm(),false);
     oled_write("-----", false);
-    oled_write(print_wpm(),false);
+    oled_set_cursor(0,11);
+    oled_write("-----", false);
+    oled_write(read_keylogs(), false);
+    //oled_write_ln(read_keylog(), false);
   }
 }
 #endif // OLED_DRIVER_ENABLE
