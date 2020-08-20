@@ -1,5 +1,7 @@
 #include QMK_KEYBOARD_H
 
+#define SPLASH_SEC 3
+
 enum LAYERS {
   _QWERTY,
   _LOWER,
@@ -169,7 +171,7 @@ void oled_task_user(void) {
               oled_write(read_logo(), false);
             }
             oled_scroll_left();
-            if (timer_elapsed(timer) > 5000){
+            if (timer_elapsed(timer) > (SPLASH_SEC * 1000)){
               splash = false;
               oled_scroll_off();
               oled_clear();
