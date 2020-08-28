@@ -2,6 +2,7 @@
 Copyright 2012 Jun Wako <wakojun@gmail.com>
 Copyright 2015 Jack Humbert
 Copyright 2017 F_YUUCHI
+Copyright 2020 Lovro Oreskovic lovro@oreskovic.me
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define MATRIX_HAS_GHOST
 
 /* Set 0 if debouncing isn't needed */
-#define DEBOUNCE 0 // FIXME: bilo je 5 u lily58l
+#define DEBOUNCE 5 // FIXME: bilo je 5 u lily58l
 
 /* SK6812 RGB LED */
 #define RGB_DI_PIN D3
@@ -77,6 +78,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_ONESHOT
 //#define NO_ACTION_MACRO
 //#define NO_ACTION_FUNCTION
-
-// Use the lily version to get the Lily58 logo instead of the qmk logo
-#define OLED_FONT_H "lib/glcdfont_lily.c"
