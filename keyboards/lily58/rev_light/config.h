@@ -27,6 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT         Lily58l
 #define DESCRIPTION     Lily58 is 6×4+5keys column-staggered split keyboard.
 
+#ifndef SOFT_SERIAL_PIN
+#define SOFT_SERIAL_PIN D2
+#define SERIAL_USE_MULTI_TRANSACTION
+#endif
+
 /* key matrix size */
 // Rows are doubled-up
 #define MATRIX_ROWS 10
@@ -72,3 +77,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_ONESHOT
 //#define NO_ACTION_MACRO
 //#define NO_ACTION_FUNCTION
+
+// Use the lily version to get the Lily58 logo instead of the qmk logo
+#define OLED_FONT_H "lib/glcdfont_lily.c"

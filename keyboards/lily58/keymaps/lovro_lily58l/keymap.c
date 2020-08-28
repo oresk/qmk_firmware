@@ -152,6 +152,7 @@ bool process_record_user_oled(uint16_t keycode, keyrecord_t *record) {
 
     switch(keycode){
         case CLR_LOG:
+        // clear keylog from oled display
             init_keylog();
             return false;
             break;

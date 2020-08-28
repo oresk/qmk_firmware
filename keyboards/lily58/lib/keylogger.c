@@ -18,6 +18,7 @@ void init_keylog(void) {
   for(int i = 0; i < sizeof(keylogs_str) - 1; i++){
     keylogs_str[i] = ' ';
   }
+  keylogs_str_idx = 0;
 }
 
 void set_keylog(uint16_t keycode, keyrecord_t *record) {
