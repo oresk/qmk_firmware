@@ -165,7 +165,8 @@ void oled_task_user(void) {
     static bool splash = true;
     static uint16_t timer = 0;
 
-    if (is_keyboard_master()) {
+    //if (is_keyboard_master()) {
+    if (1) {
         if(splash){
             if(!timer){ // do this once
               timer = timer_read();
