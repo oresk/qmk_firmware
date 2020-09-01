@@ -147,26 +147,26 @@ const char *print_wpm(void) {
 }
 bool process_record_user_oled(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
-      set_keylog(keycode, record);
+        set_keylog(keycode, record);
+
+        switch(keycode){
+            case CLR_LOG:
+            // clear keylog from oled display
+                init_keylog();
+                return false;
+                break;
+        }
     }
 
-    switch(keycode){
-        case CLR_LOG:
-        // clear keylog from oled display
-            init_keylog();
-            return false;
-            break;
-  }
-
-  return true;
+    return true;
 }
 
 void oled_task_user(void) {
     static bool splash = true;
     static uint16_t timer = 0;
 
-    //if (is_keyboard_master()) {
-    if (1) {
+    if (is_keyboard_master()) { // TEST if we are blocking side without OLED
+    //if (1) {
         if(splash){
             if(!timer){ // do this once
               timer = timer_read();
