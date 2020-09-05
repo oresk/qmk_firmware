@@ -60,3 +60,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 } while (0)
 #define PS2_INT_VECT   INT1_vect
 #endif
+
+#define PS2_MOUSE_ROTATE 270
