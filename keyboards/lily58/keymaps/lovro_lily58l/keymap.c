@@ -7,6 +7,7 @@ enum LAYERS {
   _LOWER,
   _RAISE,
   _ADJUST,
+  _MOUSE,
   _MAX_LAYER,
 };
 
@@ -15,6 +16,7 @@ enum custom_keycodes {
   LOWER,
   RAISE,
   ADJUST,
+  MOUSE,
   CLR_LOG,
 };
 
@@ -104,6 +106,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, XXXXXXX,  XXXXXXX,     XXXXXXX,   XXXXXXX, XXXXXXX,                     XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,
     XXXXXXX, XXXXXXX,  XXXXXXX,     XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,
                                     _______,   _______, _______, _______,   _______, _______, _______, _______
+),
+/* MOUSE
+ * ,-----------------------------------------.                    ,-----------------------------------------.
+ * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
+ * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
+ * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |-------.    ,-------|      |      |      |      |      |      |
+ * |------+------+------+------+------+------|       |    | Left  |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |-------|    |-------|      |      |      |      |      |      |
+ * `-----------------------------------------/       /     \      \-----------------------------------------'
+ *                   |      |      |      | /       /       \Middle\  |Right |      |      |
+ *                   |      |      |      |/       /         \      \ |      |      |      |
+ *                   `----------------------------'           '------''--------------------'
+ */
+[_MOUSE] = LAYOUT(
+    _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                    _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, _______,  KC_BTN1, _______, _______, _______, _______, _______, _______,
+                               _______, _______, _______, _______,  KC_BTN3, KC_BTN2, _______, _______
 )
 };
 
@@ -121,10 +144,11 @@ const char layer_names [_MAX_LAYER][6] = {
   "LOWER",
   "RAISE",
   " ADJ ",
+  "MOUSE",
 };
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (is_keyboard_master()){
+    if (!is_keyboard_master()){
         return OLED_ROTATION_270;  // flips the display 180 degrees if offhand
     }
     return rotation;
@@ -165,7 +189,7 @@ void oled_task_user(void) {
     static bool splash = true;
     static uint16_t timer = 0;
 
-    if (is_keyboard_master()) { // TEST if we are blocking side without OLED
+    if (!is_keyboard_master()) { // TEST if we are blocking side without OLED
     //if (1) {
         if(splash){
             if(!timer){ // do this once
@@ -194,7 +218,7 @@ void oled_task_user(void) {
 #endif // OLED_DRIVER_ENABLE
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+    return update_tri_layer_state(state, _LOWER, _RAISE, _MOUSE);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -209,7 +233,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void keyboard_post_init_user(void) {
 #   ifdef OLED_DRIVER_ENABLE
-    if(is_keyboard_master()) {
+    if(!is_keyboard_master()) {
         init_keylog();
     }
 #   endif

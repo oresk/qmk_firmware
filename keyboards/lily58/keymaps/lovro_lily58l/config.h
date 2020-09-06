@@ -23,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define USE_MATRIX_I2C
 
 /* Select hand configuration */
-#define MASTER_LEFT
-// #define MASTER_RIGHT
+// #define MASTER_LEFT
+#define MASTER_RIGHT
 // #define EE_HANDS
 
 #define TAPPING_FORCE_HOLD
@@ -38,6 +38,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_SAT_STEP 17
 #define RGBLIGHT_VAL_STEP 17
 
+
+
+#define PS2_MOUSE_ROTATE 270
 #ifdef PS2_USE_INT
 #define PS2_CLOCK_PORT  PORTD
 #define PS2_CLOCK_PIN   PIND
@@ -60,5 +63,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 } while (0)
 #define PS2_INT_VECT   INT1_vect
 #endif
-
-#define PS2_MOUSE_ROTATE 270
