@@ -129,7 +129,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                _______, _______, _______, _______,  KC_BTN3, KC_BTN2, _______, _______
 )
 };
+#define MH_AUTO_BUTTONS_TIMEOUT 750
+static uint16_t mh_auto_buttons_timer;
+extern int tp_buttons; // mousekey button state set in action.c and used in ps2_mouse.c
 
+void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
+  if (mh_auto_buttons_timer) {
+    mh_auto_buttons_timer = timer_read();
+  } else {
+    if (!tp_buttons) {
+      layer_on(_MOUSE);
+      mh_auto_buttons_timer = timer_read();
+  #if defined CONSOLE_ENABLE
+      print("mh_auto_buttons: on\n");
+  #endif
+    }
+  }
+}
+
+void matrix_scan_user(void) {
+  if (mh_auto_buttons_timer && (timer_elapsed(mh_auto_buttons_timer) > MH_AUTO_BUTTONS_TIMEOUT)) {
+    if (!tp_buttons) {
+      layer_off(_MOUSE);
+      mh_auto_buttons_timer = 0;
+  #if defined CONSOLE_ENABLE
+      print("mh_auto_buttons: off\n");
+  #endif
+    }
+  }
+}
 //OLED update loop, make sure to enable OLED_DRIVER_ENABLE=yes in rules.mk
 #ifdef OLED_DRIVER_ENABLE
 // functions from lib/keylogger.c
@@ -218,7 +246,7 @@ void oled_task_user(void) {
 #endif // OLED_DRIVER_ENABLE
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    return update_tri_layer_state(state, _LOWER, _RAISE, _MOUSE);
+    return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
